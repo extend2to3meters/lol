@@ -1,0 +1,6 @@
+/target/
+/Playlists/
+*.json
+*.txt
+/nbproject/
+lol
