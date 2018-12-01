@@ -34,8 +34,10 @@ import net.dv8tion.jda.core.*;
 import net.dv8tion.jda.core.entities.Game;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.net.InetSocketAddress;
-import java.net.Socket;
+import com.sun.net.httpserver.HttpServer;
+import com.sun.net.httpserver.HttpExchange;
 
 /**
  *
@@ -72,10 +74,13 @@ public class JMusicBot
 
         try
         {
-            Socket socket = new Socket();
             int port = isInt(System.getenv("PORT")) ? Integer.parseInt(System.getenv("PORT")) : defaultPort;
 
-            socket.bind(new InetSocketAddress("0.0.0.0", port));
+            System.out.println("Port: " + port);
+                
+            HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
+            server.setExecutor(null);
+            server.start();
         }
         catch (Exception e)
         {
