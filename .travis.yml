@@ -1,0 +1,15 @@
+language: java
+install: mvn install -Dmaven.javadoc.skip=true --batch-mode --show-version --settings .travis.settings.xml
+
+after_success: echo
+
+deploy:
+  provider: releases
+  skip_cleanup: true
+  api_key:
+    secure: "Bfp+XR+gzpHS6+HmSmsINXj42GbYKALXPFrzqqDF3AxnTg8rNeMeZFwdECgDYMnyi04IF70D4fXbPDlm1O2sFrai/DYTGek+19yDri6OJElsMXZnyir54hoOcjOGbVierVVk9aCntC4Z5AGy5AmHvq0of9yRnZiOfWSWWnkdKF1kJ11+45WvLJmJQuiApEC+gaBYgburFcTyLdpub54ayG1cVbz9NBy8O3XZLcOJjaYq6EDSz3BEIENqMF53PZzVn31xvu5aPk0B5TqR401O0wua9WnnAlm4R5FTMQXKBop6vM26KB4FzkELF2p+5VWfW0gvdhN0lYTmSQuH9coNVnngPn48ztxA58bb+kza5c0GVYonvg8cNt1kFRSFqZJvvAsR/wWJVDjEK8LfVd67ltU/6cKic5v0spuTAy0SUCDWe1wljGtLljBA14g+P5biJ6R2xWS7blb0MLPAxOo+zAWJwzm6MjJ9rzQOQ6F0fln6C+CYx3xW0Zlvb+YnDyGVy18F1moND/kzzN3qd2kwou0Qi0Hhmwb5gmulfAwnVzIquQLJK4ZRUots7gaJaYl5s9ShnMRU39OfmtI2j/4nnuL5t0163aLcgjYsqR2Ce1IQBRsqgB1jN/TI1lbqlzl0z08UsCbyaB0nuxpVW0vy4Z+WmkC0RYMRXS2wthp9m2A="
+  file_glob: true
+  file: "target/*"
+  skip_cleanup: true
+  on:
+    tags: false
