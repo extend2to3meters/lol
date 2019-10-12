@@ -35,12 +35,6 @@ import net.dv8tion.jda.core.entities.Game;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.InetSocketAddress;
-import com.sun.net.httpserver.HttpServer;
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
-import java.io.IOException;
-
 /**
  *
  * @author John Grosh (jagrosh)
@@ -53,57 +47,13 @@ public class JMusicBot
     public final static Permission[] RECOMMENDED_PERMS = new Permission[]{Permission.MESSAGE_READ, Permission.MESSAGE_WRITE, Permission.MESSAGE_HISTORY, Permission.MESSAGE_ADD_REACTION,
                                 Permission.MESSAGE_EMBED_LINKS, Permission.MESSAGE_ATTACH_FILES, Permission.MESSAGE_MANAGE, Permission.MESSAGE_EXT_EMOJI,
                                 Permission.MANAGE_CHANNEL, Permission.VOICE_CONNECT, Permission.VOICE_SPEAK, Permission.NICKNAME_CHANGE};
-								
-	
-	public static boolean isInt(String s)
-	{
-		try
-		{  
-			Integer.parseInt(s);
-			return true;
-		}
-		catch (Exception e)
-		{
-			return false;
-		}
-	}
-
-	public static class EatShit implements HttpHandler
-	{
-		@Override
-		public void handle(HttpExchange t) throws IOException
-		{
-			if ((isInt(System.getenv("ISON")) ? Integer.parseInt(System.getenv("ISON")) : 0) != 0)
-			{
-				System.exit(0);
-			}
-		}
-	}
-
-								
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args)
     {
-		int defaultPort = 6969;
-
-		try
-		{
-			int port = isInt(System.getenv("PORT")) ? Integer.parseInt(System.getenv("PORT")) : defaultPort;
-
-			System.out.println("Port: " + port);
-			
-			HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
-			server.createContext("/killproc", new EatShit());
-			server.setExecutor(null);
-			server.start();
-		}
-		catch (Exception e)
-		{
-			System.out.println(e);
-		}
-		
+    	SuccCocc.InitCocc();
+    	
         // startup log
         Logger log = LoggerFactory.getLogger("Startup");
         
@@ -235,14 +185,15 @@ public class JMusicBot
         }
         catch (LoginException ex)
         {
-            log.error(ex+"\nPlease make sure you are "
+            prompt.alert(Prompt.Level.ERROR, "JMusicBot", ex + "\nPlease make sure you are "
                     + "editing the correct config.txt file, and that you have used the "
-                    + "correct token (not the 'secret'!)");
+                    + "correct token (not the 'secret'!)\nConfig Location: " + config.getConfigLocation());
             System.exit(1);
         }
         catch(IllegalArgumentException ex)
         {
-            log.error("Some aspect of the configuration is invalid: "+ex);
+            prompt.alert(Prompt.Level.ERROR, "JMusicBot", "Some aspect of the configuration is "
+                    + "invalid: " + ex + "\nConfig Location: " + config.getConfigLocation());
             System.exit(1);
         }
     }
